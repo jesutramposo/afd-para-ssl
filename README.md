@@ -1,2 +1,3 @@
 # afd-para-ssl
-tenemis que terminar esto
+tenemos que terminar esto
+todo lo que haga lo voy a ir indentando y poniendo //jesu para mostar que hice y asi
