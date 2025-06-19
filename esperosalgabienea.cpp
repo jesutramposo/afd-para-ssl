@@ -39,7 +39,7 @@ int main (int argc, char *argv[]){
         switch(estado){
 
             case q0:
-                if (simbolo == 'A' || simbolo == 'a'){
+                if (simbolo == 'C' || simbolo == 'o'){
                     estado = q1;
                 }
                 
@@ -48,20 +48,20 @@ int main (int argc, char *argv[]){
                 }break;
 
             case q1:
-                if (simbolo == 'A' || simbolo == 'a'){  // esto se hace por cada estado
+                if (simbolo == 'O' || simbolo == 'o'){  // esto se hace por cada estado
                     estado = q2;  //ahora tenemos que ver que tablita queremos que haga
                 }else{
                     estado = qd;
                 }break;
             case q2:
-                if (simbolo == 'A' || simbolo == 'a'){
+                if (simbolo == 'V' || simbolo == 'v'){
                     estado = q3;
                 }
                 else{
                     estado = qd;
                 }break;
             case q3:
-                if (simbolo == 'B' || simbolo == 'b'){
+                if (simbolo == 'I' || simbolo == 'i'){
                     estado = q4;
                 }
                 else{
@@ -69,46 +69,94 @@ int main (int argc, char *argv[]){
                 }break;
             
             case q4:
-                if (simbolo == 'B' || simbolo == 'b'){
+                if (simbolo == 'D' || simbolo == 'd'){
                     estado = q5;
                 }
                 else{
                     estado = qd;
                 }break;
             case q5:
-                if (simbolo == 'A' || simbolo == 'a'){
+                if (simbolo == '1'){
                     estado = q6;
                 }
                 else{
                     estado = qd;
                 } break;
             case q6:
-                if (simbolo == 'B' || simbolo == 'b'){
+                if (simbolo == '9'){
                     estado = q7;
                 }
                 else{
                     estado = qd;
                     
                 }break;
-            case q7:
-                estado = qd;  // cualquier input extra lo manda al estado muerto :D
+              case q7:
+                if((simbolo >= '0' && simbolo <= '9') || 
+                   (simbolo >= 'a' && simbolo <= 'z') || 
+                   (simbolo >= 'A' && simbolo <= 'Z') || 
+                   (simbolo == '@' || simbolo == '#')){
+                        cout << "hay caracteres de más-->" << cadena << endl;
+                        estado = q0;
+                }
+                else{
+                    cout << "cadena aceptada";
+                }break;
+                
+            case qd:
                 break;
         
 
-           
-
-            
+       
         }
         
         i++; // importantisimo incrementar la variable
         
 
     }
-    if(estado == q7 && i == longitud) cout << "Cadena válida\n";
-    else cout << "Cadena no válida\n";
+    if (estado == q7){ 
+        cout << "tiene coronavirus deaa" << endl;  
+    } else{
+        cout << "cadena no valida " << endl;
+    }
 
+    // --- AQUI AGREGO EL NUEVO AUTOMATA CON TABLA DE TRANSICION ---
+    cout << endl << "Revisando la cadena para el autómata de 'a' y 'b':" << endl;
 
+    enum estadosAB {p0, p1, p2, p3, p4, pd};
+    estadosAB estadoAB = p0;
 
-    return 0; // no borren esto, recuerden que el menu esta definido como int, algo 
-    //printf("");//debemos retornar algo
+    int tablaTransicion[5][2] = {
+        {p1, p2},  // desde p0: a->p1, b->p2
+        {p1, p3},  // desde p1: a->p1, b->p3
+        {p4, p2},  // desde p2: a->p4, b->p2
+        {p3, p3},  // desde p3: a->p3, b->p3
+        {p4, p4}   // desde p4: a->p4, b->p4
+    };
+
+    i = 0;
+    longitud = cadena.size();
+
+    while(i < longitud){
+        simbolo = cadena[i];
+        if (simbolo == 'a' || simbolo == 'A') {
+            estadoAB = (estadosAB)tablaTransicion[estadoAB][0];
+        }
+        else if (simbolo == 'b' || simbolo == 'B') {
+            estadoAB = (estadosAB)tablaTransicion[estadoAB][1];
+        }
+        else {
+            estadoAB = pd; // estado de error si encuentra otro símbolo
+            break;
+        }
+        i++;
+    }
+
+    if (estadoAB == p4) {
+        cout << "Cadena aceptada por el autómata de 'a' y 'b'" << endl;
+    } else {
+        cout << "Cadena no aceptada por el autómata de 'a' y 'b'" << endl;
+    }
+
+    return 0; 
 }
+
