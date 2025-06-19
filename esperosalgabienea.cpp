@@ -9,7 +9,7 @@ using namespace std;  //extrañamente debo compilarlo como cpp por la extension 
 int main (int argc, char *argv[]){
 
     enum teestado{  //por las dudas el enum nos sirve para enumerar los estados xddd 
-        q0,q1,q2,q3,q4,q5,q6,q7  //declaracion de los estados ya formados peviamente
+        q0,q1,q2,q3,q4,q5,q6,q7,qd  //declaracion de los estados ya formados peviamente
     };
     //el enum es una manera mas sencilla para dar a definir variables
 
@@ -30,7 +30,7 @@ int main (int argc, char *argv[]){
     cout<<"ingrese la palabra o una combinacion: "<<endl; //una forma extraña de perdir las cosas pero 
     cin>> cadena; // funciona mejor y no creamos un bucle 'for' para leer los caracteres jijiji
     //hasta aca hice (jesu)
-    
+ 
     longitud = cadena.size(); // puede ser longitud cadena asi se entiende mejor
 
     while(longitud > i){
@@ -39,84 +39,73 @@ int main (int argc, char *argv[]){
         switch(estado){
 
             case q0:
-                if (simbolo == 'C' || simbolo == 'c'){
+                if (simbolo == 'A' || simbolo == 'a'){
                     estado = q1;
                 }
                 
-                else {
-                    estado = q0;
+                else { 
+                    estado = qd;
                 }break;
 
             case q1:
-                if (simbolo == 'O' || simbolo == 'o'){  // esto se hace por cada estado
+                if (simbolo == 'A' || simbolo == 'a'){  // esto se hace por cada estado
                     estado = q2;  //ahora tenemos que ver que tablita queremos que haga
                 }else{
-                    estado = q0;
+                    estado = qd;
                 }break;
             case q2:
-                if (simbolo == 'V' || simbolo == 'v'){
+                if (simbolo == 'A' || simbolo == 'a'){
                     estado = q3;
                 }
                 else{
-                    estado = q0;
+                    estado = qd;
                 }break;
             case q3:
-                if (simbolo == 'I' || simbolo == 'i'){
+                if (simbolo == 'B' || simbolo == 'b'){
                     estado = q4;
                 }
                 else{
-                    estado = q0;
+                    estado = qd;
                 }break;
             
             case q4:
-                if (simbolo == 'D' || simbolo == 'd'){
+                if (simbolo == 'B' || simbolo == 'b'){
                     estado = q5;
                 }
                 else{
-                    estado = q0;
+                    estado = qd;
                 }break;
             case q5:
-                if (simbolo == '1' ){
+                if (simbolo == 'A' || simbolo == 'a'){
                     estado = q6;
                 }
                 else{
-                    estado = q0;
+                    estado = qd;
                 } break;
             case q6:
-                if (simbolo == '9' ){
+                if (simbolo == 'B' || simbolo == 'b'){
                     estado = q7;
                 }
                 else{
-                    estado = q0;
+                    estado = qd;
                     
                 }break;
             case q7:
-                if((simbolo >= '0' || simbolo <= '9') || (simbolo >= 'a' || simbolo >= 'z') || (simbolo >= 'A' || simbolo >= 'Z')
-                    || (simbolo == '@' || simbolo == '#')){
-                    
-                        cout << "hay caracteres de mas man -->" + cadena << endl;
-                        estado = q0;
-
-                    }
-                else{
-                    cout << "cadena aceptada";
-                }break; // aca termina
+                estado = qd;  // cualquier input extra lo manda al estado muerto :D
+                break;
         
 
            
 
             
-        }i++; // importantisimo incrementar la variable
-    }
-    
-    if (estado == q7){ //estado final
-        cout << "tiene coronavirus ashe" << endl;      //usamos cout para que no sea todo c++ y haya algo de c  
-    }
-            
-    else{
-            cout << "cadena no valida " << endl;
-    }
+        }
+        
+        i++; // importantisimo incrementar la variable
+        
 
+    }
+    if(estado == q7 && i == longitud) cout << "Cadena válida\n";
+    else cout << "Cadena no válida\n";
 
 
 
